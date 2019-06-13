@@ -1,1 +1,1 @@
-# Checkers - it's just Checkers
+# Checkers - just Checkers
