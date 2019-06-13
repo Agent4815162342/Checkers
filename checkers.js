@@ -2,8 +2,9 @@ class Checkers {
     constructor(options) {
         this.checkers = options.checkers;
         this.team = 'w';
+        this.currentCheck = 0;
         this.draw();
-        this.step();
+        this.step(this.team);
     }
     draw() {
         let counter = 0;
@@ -27,13 +28,14 @@ class Checkers {
             counter++;
         }
     }
-    step() {
-        let y = 0;
-        this.checkers.onclick =  (e) =>  {
-            this.clear('active_field');
+    step(team) {                                                       // Завтра надо поработать с переключением коман
+        let y = 0;                                                     // Сейчас при двойном клике на шашку нарушается очередь
+        this.checkers.onclick =  (e) =>  {                             // Возможно ответ кроется где-то рядом с ${team}
+            this.clear('active_field');                                // (в конце клика цвет команды так и так переключается - надо это доработать)
             let coordX = +e.target.closest('.field').dataset.x;
             let coordY = +e.target.closest('.field').dataset.y;
-            if (e.target.closest(`.${this.team}`)) {
+            if (e.target.closest(`.${team}`)) {
+                this.currentCheck = e.target.closest(`.${team}`);
                 if (this.team == 'w') {
                     coordY += 1; 
                 } else {
@@ -46,6 +48,17 @@ class Checkers {
                     activeField.classList.add('active_field');
                 }
             }
+            this.toggleTeam();
+            this.confirm();
+        }
+    }
+    confirm() {
+        this.checkers.onclick = (e) => {
+            if (e.target.closest('.active_field')) {
+                e.target.appendChild(this.currentCheck);
+                this.clear('active_field');
+            }
+            this.step(this.team);
         }
     }
     clear(select) {
@@ -53,6 +66,13 @@ class Checkers {
         elems.forEach((el) => {
             el.classList.remove(select);
         })
+    }
+    toggleTeam() {
+        if (this.team == 'w') {
+            this.team = 'b';
+        } else {
+            this.team = 'w';
+        }
     }
 }
 
