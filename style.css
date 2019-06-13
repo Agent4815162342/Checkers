@@ -1,0 +1,21 @@
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#checkers {
+    height: 640px;
+    width: 640px;
+    border: 2px solid black;
+    font-size: 0;
+}
+.field {
+    width: 80px;
+    height: 80px;
+    display: inline-block;
+}
+.black_field {
+    background: rgb(76, 22, 32);
+}
