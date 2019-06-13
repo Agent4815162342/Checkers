@@ -19,3 +19,15 @@ body {
 .black_field {
     background: rgb(76, 22, 32);
 }
+.w, .b {
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    margin: 10px auto;
+}
+.w {
+    background: white;
+}
+.b {
+    background: black;
+}
