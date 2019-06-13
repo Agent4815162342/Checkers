@@ -31,3 +31,7 @@ body {
 .b {
     background: black;
 }
+.active_field {
+    background: green;
+    opacity: .6;
+}
