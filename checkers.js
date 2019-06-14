@@ -6,7 +6,7 @@ class Checkers {
         this.draw();
         this.step(this.team);
     }
-    draw() {
+    draw() {                            // Метод, рисующий поле
         let counter = 0;
         for (let i = 0; i < 8; i++) {
             for (let j = 0; j < 8; j++) {
@@ -28,51 +28,64 @@ class Checkers {
             counter++;
         }
     }
-    step(team) {                                                       // Завтра надо поработать с переключением коман
-        let y = 0;                                                     // Сейчас при двойном клике на шашку нарушается очередь
-        this.checkers.onclick =  (e) =>  {                             // Возможно ответ кроется где-то рядом с ${team}
-            this.clear('active_field');                                // (в конце клика цвет команды так и так переключается - надо это доработать)
-            let coordX = +e.target.closest('.field').dataset.x;
-            let coordY = +e.target.closest('.field').dataset.y;
-            if (e.target.closest(`.${team}`)) {
-                this.currentCheck = e.target.closest(`.${team}`);
-                if (this.team == 'w') {
-                    coordY += 1; 
-                } else {
-                    coordY -= 1;
-                }
-                for (let i = -1; i < 2; i+=2) {
-                    if (coordX+i < 0 || coordX+i >7) continue;
-                    let activeField = document.querySelector(`div[data-y="${coordY}"][data-x="${coordX+i}"]`);
-                    if (activeField.children.length) continue;
-                    activeField.classList.add('active_field');
-                }
+    step(team) {                        // Метод, задающий обработчик для нажатия на шашку                                                       
+        let y = 0;                                                     
+        this.checkers.onclick =  (e) =>  {                             
+            this.clear('active_field');                                
+            this.currentCheck = e.target.closest(`.${team}`)
+            if (this.currentCheck) {
+                this.addActiveField(this.currentCheck);
+                this.confirm();
             }
-            this.toggleTeam();
-            this.confirm();
         }
     }
-    confirm() {
+    confirm() {                         // Метод, перемещающий шашку на возможный ход, в противном случае подсвечивает ходы для другой шашки
         this.checkers.onclick = (e) => {
             if (e.target.closest('.active_field')) {
                 e.target.appendChild(this.currentCheck);
                 this.clear('active_field');
+                this.toggleTeam();
+                this.step(this.team);
+            } else if (e.target.closest(`.${this.team}`)) {
+                    this.clear('active_field');
+                    this.currentCheck = e.target.closest(`.${this.team}`);
+                    this.addActiveField(this.currentCheck);
+            } else {
+                return;
             }
-            this.step(this.team);
         }
     }
-    clear(select) {
+    clear(select) {                     // Метод удаления заданного класса
         let elems = document.querySelectorAll(`.${select}`);
         elems.forEach((el) => {
             el.classList.remove(select);
         })
     }
-    toggleTeam() {
+    toggleTeam() {                      // Метод смены команды (белые/черные)
         if (this.team == 'w') {
             this.team = 'b';
         } else {
             this.team = 'w';
         }
+    }
+    addActiveField(current) {           // Метод, подссвечивающий активные ходы
+        this.coordX = +current.closest('.field').dataset.x;
+        this.coordY = +current.closest('.field').dataset.y;
+            if (this.team == 'w') {
+                this.coordY += 1; 
+            } else {
+                this.coordY -= 1;
+            }
+            let activeField;
+            for (let i = -1; i < 2; i+=2) {
+                if (this.coordX+i < 0 || this.coordX+i >7) continue;
+                activeField = document.querySelector(`div[data-y="${this.coordY}"][data-x="${this.coordX+i}"]`);
+                if (activeField.children.length) continue;
+                activeField.classList.add('active_field');
+            }
+            if (activeField) {
+                this.confirm();
+            }
     }
 }
 
