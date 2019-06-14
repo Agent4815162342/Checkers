@@ -44,6 +44,7 @@ class Checkers {
             if (e.target.closest('.active_field')) {
                 e.target.appendChild(this.currentCheck);
                 this.clear('active_field');
+                this.clear('eat');
                 this.toggleTeam();
                 this.step(this.team);
             } else if (e.target.closest(`.${this.team}`)) {
@@ -80,15 +81,26 @@ class Checkers {
             for (let i = -1; i < 2; i+=2) {
                 if (this.coordX+i < 0 || this.coordX+i >7) continue;
                 activeField = document.querySelector(`div[data-y="${this.coordY}"][data-x="${this.coordX+i}"]`);
-                if (activeField.children.length) continue;
-                activeField.classList.add('active_field');
+                if (activeField.children.length && !activeField.children[0].classList.contains(this.team)) {
+                    this.eat(activeField);
+                }else if (!activeField.children.length){
+                    activeField.classList.add('active_field');
+                }
             }
             if (activeField) {
                 this.confirm();
             }
+    }
+    eat(field) {
+        let currentField = this.currentCheck.parentNode;
+        let shiftX = +field.dataset.x - +currentField.dataset.x;
+        let shiftY = +field.dataset.y - +currentField.dataset.y;
+        let eatField = document.querySelector(`div[data-y="${+field.dataset.y + shiftY}"][data-x="${+field.dataset.x + shiftX}"]`);
+        if (!eatField.children.length) eatField.classList.add('eat');
     }
 }
 
 const myCheckers = new Checkers({
     checkers: document.getElementById('checkers')
 })
+
