@@ -31,7 +31,7 @@ class Checkers {
     step(team) {                        // Метод, задающий обработчик для нажатия на шашку                                                       
         let y = 0;                                                     
         this.checkers.onclick =  (e) =>  {                             
-            this.clear('active_field');                                
+            this.clear('active_field');                                                               
             this.currentCheck = e.target.closest(`.${team}`)
             if (this.currentCheck) {
                 this.addActiveField(this.currentCheck);
@@ -56,7 +56,7 @@ class Checkers {
             }
         }
     }
-    clear(select) {                     // Метод удаления заданного класса
+    clear(select) {                     // Метод удаления заданного класса(добавить ввод классов через апятую!)
         let elems = document.querySelectorAll(`.${select}`);
         elems.forEach((el) => {
             el.classList.remove(select);
@@ -70,6 +70,7 @@ class Checkers {
         }
     }
     addActiveField(current) {           // Метод, подссвечивающий активные ходы
+        this.clear('eat'); 
         this.coordX = +current.closest('.field').dataset.x;
         this.coordY = +current.closest('.field').dataset.y;
             if (this.team == 'w') {
@@ -96,8 +97,25 @@ class Checkers {
         let shiftX = +field.dataset.x - +currentField.dataset.x;
         let shiftY = +field.dataset.y - +currentField.dataset.y;
         let eatField = document.querySelector(`div[data-y="${+field.dataset.y + shiftY}"][data-x="${+field.dataset.x + shiftX}"]`);
-        if (!eatField.children.length) eatField.classList.add('eat');
+        if (!eatField.children.length) {
+            this.clear('active_field');
+            eatField.classList.add('eat');
+            eatField.onclick = this.eatConfirm.bind(this, eatField);
+
+        }
     }
+    eatConfirm(field) {
+            let currentCheck = this.currentCheck.parentNode;
+            console.dir(this.currentCheck);
+            let target = field;
+            console.log(target.dataset.y, currentCheck.dataset.y);
+            let removedField = document.querySelector(`div[data-y="${(+target.dataset.y + +currentCheck.dataset.y)/2}"][data-x="${(+target.dataset.x + +currentCheck.dataset.x)/2}"]`);
+            removedField.removeChild(removedField.children[0]);
+            target.appendChild(this.currentCheck);
+            this.clear('eat');
+            this.toggleTeam();
+            this.step(this.team);
+        }
 }
 
 const myCheckers = new Checkers({
