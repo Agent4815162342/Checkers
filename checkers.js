@@ -85,7 +85,7 @@ class Checkers {
                 } else if (this.team == 'b' && j == 1) {
                     continue;
                 } else {
-                    if (!document.querySelector('.eat')) {
+                    if (!document.querySelector('.eat') && potentialField.children.length == 0) {
                         potentialField.classList.add('active_field');
                         this.confirm(); 
                     }
@@ -103,14 +103,13 @@ class Checkers {
             this.clear('active_field');
             eatField.classList.add('eat');
             eatField.onclick = this.eatConfirm.bind(this);
-            eatField.onclick = this.eatConfirm.bind(this, eatField);
 
         }
     }
     eatConfirm(field) {
-            console.dir(this.currentCheck);
             let currentCheck = this.currentCheck.parentNode;
             let target = document.querySelector('.eat');
+            console.dir(target);
             let removedField = document.querySelector(`div[data-y="${(+target.dataset.y + +currentCheck.dataset.y)/2}"][data-x="${(+target.dataset.x + +currentCheck.dataset.x)/2}"]`);
             if (removedField.children.length > 0) {
                 removedField.removeChild(removedField.children[0]);
