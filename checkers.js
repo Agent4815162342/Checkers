@@ -102,16 +102,12 @@ class Checkers {
         if (!eatField.children.length) {
             this.clear('active_field');
             eatField.classList.add('eat');
-<<<<<<< HEAD
             eatField.onclick = this.eatConfirm.bind(this);
-=======
             eatField.onclick = this.eatConfirm.bind(this, eatField);
->>>>>>> 7df56504f124d5c05c4b570eb5fe33acf0dbcf47
 
         }
     }
     eatConfirm(field) {
-<<<<<<< HEAD
             console.dir(this.currentCheck);
             let currentCheck = this.currentCheck.parentNode;
             let target = document.querySelector('.eat');
@@ -124,18 +120,6 @@ class Checkers {
                 this.toggleTeam();
                 this.step(this.team);
             }
-=======
-            let currentCheck = this.currentCheck.parentNode;
-            console.dir(this.currentCheck);
-            let target = field;
-            console.log(target.dataset.y, currentCheck.dataset.y);
-            let removedField = document.querySelector(`div[data-y="${(+target.dataset.y + +currentCheck.dataset.y)/2}"][data-x="${(+target.dataset.x + +currentCheck.dataset.x)/2}"]`);
-            removedField.removeChild(removedField.children[0]);
-            target.appendChild(this.currentCheck);
-            this.clear('eat');
-            this.toggleTeam();
-            this.step(this.team);
->>>>>>> 7df56504f124d5c05c4b570eb5fe33acf0dbcf47
         }
 }
 
