@@ -70,8 +70,13 @@ class Checkers {
     }
     addActiveField(current) {           // Метод, подссвечивающий активные ходы
         this.clear('eat'); 
+<<<<<<< HEAD
         this.coordX = +current.parentNode.dataset.x;
         this.coordY = +current.parentNode.dataset.y;
+=======
+        this.coordX = +current.closest('.field').dataset.x;
+        this.coordY = +current.closest('.field').dataset.y;
+>>>>>>> 4015c7faa357a3e36d33b1f87e5c727c4d1ae8c9
 
         for (let i = -1; i< 2; i+=2) {
             for (let j = -1; j < 2; j+=2) {
@@ -93,19 +98,26 @@ class Checkers {
         }
     }
     eat(field) {
+<<<<<<< HEAD
         this.currentField = this.currentCheck.parentNode;
         let shiftX = +field.dataset.x - +this.currentField.dataset.x;
         let shiftY = +field.dataset.y - +this.currentField.dataset.y;
+=======
+        let currentField = this.currentCheck.parentNode;
+        let shiftX = +field.dataset.x - +currentField.dataset.x;
+        let shiftY = +field.dataset.y - +currentField.dataset.y;
+>>>>>>> 4015c7faa357a3e36d33b1f87e5c727c4d1ae8c9
         if (+field.dataset.y + shiftY < 0 || +field.dataset.y + shiftY > 7 || +field.dataset.x + shiftX < 0 || +field.dataset.x + shiftX > 7) return;
         let eatField = document.querySelector(`div[data-y="${+field.dataset.y + shiftY}"][data-x="${+field.dataset.x + shiftX}"]`);
         if (!eatField.children.length) {
             this.clear('active_field');
             eatField.classList.add('eat');
-            eatField.onclick = this.eatConfirm.bind(this, eatField);
+            eatField.onclick = this.eatConfirm.bind(this);
 
         }
     }
     eatConfirm(field) {
+<<<<<<< HEAD
         this.clear('eat');
             if (field) {
                 let removedField = document.querySelector(`div[data-y="${(+field.dataset.y + +this.currentField.dataset.y)/2}"][data-x="${(+field.dataset.x + +this.currentField.dataset.x)/2}"]`);
@@ -122,6 +134,20 @@ class Checkers {
                     }
                 }
             } else return;
+=======
+            let currentCheck = this.currentCheck.parentNode;
+            let target = document.querySelector('.eat');
+            console.dir(target);
+            let removedField = document.querySelector(`div[data-y="${(+target.dataset.y + +currentCheck.dataset.y)/2}"][data-x="${(+target.dataset.x + +currentCheck.dataset.x)/2}"]`);
+            if (removedField.children.length > 0) {
+                removedField.removeChild(removedField.children[0]);
+                target.appendChild(this.currentCheck);
+                this.currentCheck = target.children[0];
+                this.clear('eat');
+                this.toggleTeam();
+                this.step(this.team);
+            }
+>>>>>>> 4015c7faa357a3e36d33b1f87e5c727c4d1ae8c9
         }
 }
 
