@@ -30,7 +30,6 @@ class Checkers {
     }
     step(team) {                        // Метод, задающий обработчик для нажатия на шашку                                                                                                            
         this.checkers.onclick = (e) => {
-            console.log(1);
             this.clear('active_field');
             this.currentCheck = e.target.closest(`.${team}`)
             if (this.currentCheck) {
@@ -40,7 +39,6 @@ class Checkers {
     }
     confirm() {                         // Метод, перемещающий шашку на возможный ход, в противном случае подсвечивает ходы для другой шашки
         this.checkers.onclick = (e) => {
-            console.log(2);
             if (e.target.closest('.active_field')) {
                 e.target.appendChild(this.currentCheck);
                 this.clear('active_field');
@@ -105,7 +103,6 @@ class Checkers {
         }
     }
     eatConfirm(field) {
-        console.log(3);
         this.clear('eat');
         this.checkers.onclick = null;
         let removedField = document.querySelector(`div[data-y="${(+field.dataset.y + +this.currentField.dataset.y) / 2}"][data-x="${(+field.dataset.x + +this.currentField.dataset.x) / 2}"]`);
