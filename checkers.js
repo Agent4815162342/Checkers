@@ -68,6 +68,7 @@ class Checkers {
         }
     }
     addActiveField(current) {           // Метод, подссвечивающий активные ходы
+        this.clear('eat');
         this.coordX = +current.parentNode.dataset.x;
         this.coordY = +current.parentNode.dataset.y;
         for (let i = -1; i < 2; i += 2) {
