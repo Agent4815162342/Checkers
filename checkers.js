@@ -120,10 +120,8 @@ class Checkers {
                 this.step(this.team);
             }
         }
-<<<<<<< HEAD
+
         field.onclick = null;
-=======
->>>>>>> 5417114ae83ef830e972f1a25a4d916fe9ab524e
     }
 }
 
