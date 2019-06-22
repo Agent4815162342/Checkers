@@ -3,7 +3,12 @@ body {
     height: 100vh;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
+    font-family: Arial, Helvetica, sans-serif;
+}
+#score {
+    width: 30%;
+    text-align: center;
 }
 #checkers {
     height: 640px;
